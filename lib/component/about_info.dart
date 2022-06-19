@@ -15,7 +15,7 @@ class AboutInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           flex: 1,
@@ -48,59 +48,51 @@ class AboutInfo extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Genre',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  BlocProvider(
-                    create: (context) => detailBloc,
-                    child: BlocListener<DetailBloc, DetailState>(
-                      listener: (context, state) {
-                        if (state is DetailError) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(state.message!),
-                          ));
-                        }
-                      },
-                      child: BlocBuilder<DetailBloc, DetailState>(
-                        builder: (context, state) {
-                          if (state is DetailSuccess) {
-                            var genres = state.detailModel.genres ?? [];
-                            return SizedBox(
-                              width: 180,
-                              child: Wrap(
-                                spacing: 4,
-                                direction: Axis.horizontal,
-                                children: genres.map((genre) => Chip(
-                                  backgroundColor: Colors.grey,
-                                  label: Text(genre.name ?? ""),
-                                  labelStyle: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400
-                                  ),
-                                )).toList(),
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                    ),
-                  )
-                ],
+              const Text(
+                'Genre',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
               ),
+              BlocProvider(
+                create: (context) => detailBloc,
+                child: BlocListener<DetailBloc, DetailState>(
+                  listener: (context, state) {
+                    if (state is DetailError) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.message!),
+                      ));
+                    }
+                  },
+                  child: BlocBuilder<DetailBloc, DetailState>(
+                    builder: (context, state) {
+                      if (state is DetailSuccess) {
+                        var genres = state.detailModel.genres ?? [];
+                        return Wrap(
+                          spacing: 4,
+                          children: genres.map((genre) => Chip(
+                            backgroundColor: Colors.grey,
+                            label: Text(genre.name ?? ""),
+                            labelStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400
+                            ),
+                          )).toList(),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ),
+              )
             ],
           ),
-        ),
+        )
       ],
     );
   }
