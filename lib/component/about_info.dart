@@ -74,14 +74,15 @@ class AboutInfo extends StatelessWidget {
                         var genres = state.detailModel.genres ?? [];
                         return Wrap(
                           spacing: 4,
-                          children: genres.map((genre) => Chip(
-                            backgroundColor: Colors.grey,
-                            label: Text(genre.name ?? ""),
-                            labelStyle: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                            ),
-                          )).toList(),
+                          children: genres
+                              .map((genre) => Chip(
+                                    backgroundColor: Colors.grey,
+                                    label: Text(genre.name ?? ""),
+                                    labelStyle: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400),
+                                  ))
+                              .toList(),
                         );
                       } else {
                         return Container();
